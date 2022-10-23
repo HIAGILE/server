@@ -25,4 +25,6 @@ export class Project extends CoreEntity{
 
     @RelationId((user:User) => user.projects)
     userId:number;
+
+    
 }

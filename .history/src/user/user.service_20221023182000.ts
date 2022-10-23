@@ -14,7 +14,7 @@ export class UserService{
 
     async usersAll():Promise<User[]>{
         return this.users.find({
-            relations:["projects"]
-        });
+            relations:["project"]
+        })
     }
 }

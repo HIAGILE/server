@@ -39,7 +39,7 @@ export class User extends CoreEntity{
     verified:boolean;
     
     @Field((type) => [Project])
-    @OneToMany((type) => Project,(project)=>project.owner,)
+    @OneToMany((type) => Project,(project)=>project.owner)
     projects:Project[]
 }
 

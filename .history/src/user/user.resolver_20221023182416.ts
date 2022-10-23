@@ -10,4 +10,5 @@ export class UserResolver{
     users():Promise<User[]>{
         return this.userService.usersAll();
     }
+
 }
