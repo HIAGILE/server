@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Sprint } from "./entities/sprint.entity";
+import { Member } from "./entities/member.entity";
 
 @Injectable()
 
-export class SprintService{
+export class MemberService{
     constructor(
-        @InjectRepository(Sprint)
-        private readonly sprints:Repository<Sprint>,
+        @InjectRepository(Member)
+        private readonly members:Repository<Member>,
     ){}
 }

@@ -10,4 +10,5 @@ export class SprintService{
         @InjectRepository(Sprint)
         private readonly sprints:Repository<Sprint>,
     ){}
+
 }

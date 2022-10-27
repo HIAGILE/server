@@ -3,7 +3,7 @@ import { IsEnum } from "class-validator";
 import { type } from "os";
 import { CoreEntity } from "src/common/entities/core.entity";
 import { Sprint } from "src/sprint/entities/sprint.entity";
-import { Column, Entity, ManyToOne, RelationId } from "typeorm";
+import { Column, Entity, ManyToOne } from "typeorm";
 
 
 export enum ToDoListStatus{
@@ -31,11 +31,10 @@ export class ToDoList extends CoreEntity{
     @Column({nullable:true})
     @Field((type) => String)
     description:string;
+
     
     @Field((type) => Sprint,{nullable:true})
     @ManyToOne(()=> Sprint, (sprint) => sprint.toDoList)
     sprint:Sprint;
 
-    @RelationId((toDoList:ToDoList) => toDoList.sprint)
-    sprintId:number;
 }
