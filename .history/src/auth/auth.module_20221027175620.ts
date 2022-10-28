@@ -7,7 +7,7 @@ import { AuthGuard } from './auth.guard';
     imports:[UserModule],
     providers:[{
         provide:APP_GUARD,
-        useClass: AuthGuard
+        useClass:AuthGuard
     }]
 })
 export class AuthModule {}

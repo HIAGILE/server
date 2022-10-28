@@ -11,22 +11,14 @@ import { Column, Entity, ManyToOne, OneToOne, RelationId } from "typeorm";
 export class Member extends CoreEntity {
     
     @Field((type) => Project)
-    @ManyToOne((type) => Project,(project) => project.members,{
-        nullable:true,
-        onDelete:"CASCADE",
-        eager:true,
-    })
+    @ManyToOne((type) => Project,(project) => project.members)
     project:Project;
 
     @RelationId((member:Member) => member.project)
     projectId:number;
 
     @Field((type) => User)
-    @ManyToOne((type) => User,(user) => user.members,{
-        nullable:true,
-        onDelete:"CASCADE",
-        eager:true
-    })
+    @ManyToOne((type) => User)
     user:User;
 
     @RelationId((member:Member) => member.user)

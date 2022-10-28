@@ -39,8 +39,8 @@ export class Project extends CoreEntity {
     })
     owner: User
 
-    @RelationId((project: Project) => project.owner)
-    ownerId: number;
+    @RelationId((user: User) => user.projects)
+    userId: number;
 
     @Column({ nullable: true })
     @Field((type) => String)

@@ -38,7 +38,7 @@ import { Verification } from './user/entities/verification.entity';
       username: 'mac',
       password: '    ',
       database: 'hiagile',
-      entities: [User,Project,Sprint,Member,ToDoList,Verification],
+      //entities: [User,Project,Sprint,Member,ToDoList,Verification],
       logging: 
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',

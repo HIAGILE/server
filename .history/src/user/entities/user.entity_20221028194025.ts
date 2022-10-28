@@ -45,7 +45,7 @@ export class User extends CoreEntity{
 
     @Field((type) => [Member])
     @OneToMany((type) => Member,(member)=>member.user,)
-    members:Member[]
+    Members:Member[]
 }
 
 

@@ -43,9 +43,12 @@ export class User extends CoreEntity{
     @OneToMany((type) => Project,(project)=>project.owner,)
     projects:Project[]
 
+    @RelationId((project: Project) => project.owner)
+    ownerId: number;
+
     @Field((type) => [Member])
     @OneToMany((type) => Member,(member)=>member.user,)
-    members:Member[]
+    Members:Member[]
 }
 
 

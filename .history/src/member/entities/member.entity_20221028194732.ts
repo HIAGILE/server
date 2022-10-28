@@ -22,13 +22,6 @@ export class Member extends CoreEntity {
     projectId:number;
 
     @Field((type) => User)
-    @ManyToOne((type) => User,(user) => user.members,{
-        nullable:true,
-        onDelete:"CASCADE",
-        eager:true
-    })
+    @ManyToOne((type) => User)
     user:User;
-
-    @RelationId((member:Member) => member.user)
-    userId:number;
 }

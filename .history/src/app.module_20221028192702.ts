@@ -12,12 +12,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
-import { User } from './user/entities/user.entity';
-import { Project } from './project/entities/project.entity';
-import { Sprint } from './sprint/entities/sprint.entity';
-import { Member } from './member/entities/member.entity';
-import { ToDoList } from './todolist/entities/todolist.entity';
-import { Verification } from './user/entities/verification.entity';
 
 
 @Module({
@@ -38,10 +32,8 @@ import { Verification } from './user/entities/verification.entity';
       username: 'mac',
       password: '    ',
       database: 'hiagile',
-      entities: [User,Project,Sprint,Member,ToDoList,Verification],
-      logging: 
-        process.env.NODE_ENV !== 'production' &&
-        process.env.NODE_ENV !== 'test',
+      entities: [],
+      logging: false,
       synchronize: true,
     }),
   UserModule,

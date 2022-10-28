@@ -32,15 +32,11 @@ export class Project extends CoreEntity {
     name: string;
 
     @Field((type) => User)
-    @ManyToOne((type) => User, (user) => user.projects,{
-        nullable:true,
-        onDelete:"SET NULL",
-        eager:true,
-    })
+    @ManyToOne((type) => User, (user) => user.projects)
     owner: User
 
-    @RelationId((project: Project) => project.owner)
-    ownerId: number;
+    @RelationId((user: User) => user.projects)
+    userId: number;
 
     @Column({ nullable: true })
     @Field((type) => String)
@@ -49,10 +45,4 @@ export class Project extends CoreEntity {
     @Field((type) => [Sprint])
     @OneToMany(() => Sprint, (sprint) => sprint.project)
     sprints: [Sprint];
-
-
-    @Field((type) => [Member])
-    @OneToMany(() => Member, (member) => member.project)
-    members: [Member];
-
 }

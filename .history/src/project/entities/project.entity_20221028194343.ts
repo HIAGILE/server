@@ -39,8 +39,8 @@ export class Project extends CoreEntity {
     })
     owner: User
 
-    @RelationId((project: Project) => project.owner)
-    ownerId: number;
+    @RelationId((user: User) => user.projects)
+    userId: number;
 
     @Column({ nullable: true })
     @Field((type) => String)
@@ -49,10 +49,4 @@ export class Project extends CoreEntity {
     @Field((type) => [Sprint])
     @OneToMany(() => Sprint, (sprint) => sprint.project)
     sprints: [Sprint];
-
-
-    @Field((type) => [Member])
-    @OneToMany(() => Member, (member) => member.project)
-    members: [Member];
-
 }

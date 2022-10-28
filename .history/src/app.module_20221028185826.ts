@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { ProjectModule } from './project/project.module';
 import { MemberModule } from './member/member.module';
@@ -10,14 +10,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from './jwt/jwt.module';
-import { JwtMiddleware } from './jwt/jwt.middleware';
-import { User } from './user/entities/user.entity';
-import { Project } from './project/entities/project.entity';
-import { Sprint } from './sprint/entities/sprint.entity';
-import { Member } from './member/entities/member.entity';
-import { ToDoList } from './todolist/entities/todolist.entity';
-import { Verification } from './user/entities/verification.entity';
 
 
 @Module({
@@ -38,30 +30,18 @@ import { Verification } from './user/entities/verification.entity';
       username: 'mac',
       password: '    ',
       database: 'hiagile',
-      entities: [User,Project,Sprint,Member,ToDoList,Verification],
-      logging: 
-        process.env.NODE_ENV !== 'production' &&
-        process.env.NODE_ENV !== 'test',
+      entities: [],
+      logging: false,
       synchronize: true,
     }),
   UserModule,
   ProjectModule,
   MemberModule,
   SprintModule,
-  JwtModule.forRoot({
-    privateKey: process.env.PRIVATE_KEY,
-  }),
   TodolistModule,
   AuthModule,
   CommonModule],
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule{ 
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(JwtMiddleware).forRoutes({
-      path: '/graphql',
-      method: RequestMethod.POST,
-    });
-  }
-}
+export class AppModule { }

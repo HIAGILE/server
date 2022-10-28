@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
 import { CoreEntity } from "src/common/entities/core.entity";
-import { Column, Entity, OneToMany, RelationId } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { IsBoolean, IsEnum } from "class-validator";
 import { Project } from "src/project/entities/project.entity";
 import { Member } from "src/member/entities/member.entity";
@@ -39,13 +39,14 @@ export class User extends CoreEntity{
     @IsBoolean()
     verified:boolean;
     
+    @Column({ nullable: false })
     @Field((type) => [Project])
     @OneToMany((type) => Project,(project)=>project.owner,)
     projects:Project[]
 
     @Field((type) => [Member])
     @OneToMany((type) => Member,(member)=>member.user,)
-    members:Member[]
+    Members:Member[]
 }
 
 
