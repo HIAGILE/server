@@ -25,6 +25,4 @@ export class UserResolver{
     me(@AuthUser() authUser:User){
         return authUser;
     }
-
-    @Mutation((returns))
 }
