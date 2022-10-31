@@ -19,7 +19,7 @@ import { Member } from './member/entities/member.entity';
 import { ToDoList } from './todolist/entities/todolist.entity';
 import { Verification } from './user/entities/verification.entity';
 import { MailModule } from './mail/mail.module';
-import * as Joi from 'joi';
+import Joi from 'joi';
 
 
 @Module({

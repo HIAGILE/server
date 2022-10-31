@@ -19,7 +19,7 @@ import { Member } from './member/entities/member.entity';
 import { ToDoList } from './todolist/entities/todolist.entity';
 import { Verification } from './user/entities/verification.entity';
 import { MailModule } from './mail/mail.module';
-import * as Joi from 'joi';
+import Joi from 'joi';
 
 
 @Module({
@@ -71,9 +71,7 @@ import * as Joi from 'joi';
   AuthModule,
   CommonModule,
   MailModule.forRoot({
-    apiKey: process.env.MAILGUN_API_KEY,
-    domain: process.env.MAILGUN_DOMAIN_NAME,
-    fromEmail: process.env.MAILGUN_FROM_EMAIL,
+    apiKey:process.env.
   })],
   controllers: [],
   providers: [],

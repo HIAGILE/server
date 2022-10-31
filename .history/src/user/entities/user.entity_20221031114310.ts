@@ -21,7 +21,7 @@ export class User extends CoreEntity{
 
     @Column({nullable:true})
     @Field((type)=>String)
-    name?:string;
+    name:string;
 
     @Column({unique:true,nullable:false})
     @Field((type)=>String)

@@ -31,7 +31,7 @@ export class User extends CoreEntity{
     @Field((type)=>String)
     password:string;
 
-    @Column({default:false})
+    @Column({default:UserRole.Client})
     @Field((type)=>UserRole)
     @IsEnum(UserRole)
     role:UserRole;
