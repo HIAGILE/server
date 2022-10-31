@@ -47,7 +47,6 @@ import * as Joi from 'joi';
       driver: ApolloDriver, // 아폴로 드라이버 옵션
       autoSchemaFile: true, // Schema 파일 생성 여부 옵션
       introspection:true,
-      persistedQueries:false,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
