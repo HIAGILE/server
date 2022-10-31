@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import { CreateAccountInput, CreateAccountOutput, ValidateAccountInput, ValidateAccountOutput } from "./dtos/create-account.dto";
 import { LoginInput, LoginOutput } from "./dtos/login.dto";
 import { UserProfileOutput } from "./dtos/user-profile.dto";
-import { User, UserRole } from "./entities/user.entity";
+import { User } from "./entities/user.entity";
 import { Verification } from "./entities/verification.entity";
 
 
@@ -93,62 +93,25 @@ export class UserService{
       }
 
       async validateAccount({email}:ValidateAccountInput):Promise<ValidateAccountOutput>{
-        try{
-          const user = await this.users.findOne({
-            select:{
-              email:true,
-            },
-            where:{
-              email:email
-            }
-          });
-  
-          if (user)
-          {
-            return {
-              ok:false,
-              error:"이미 등록된 이메일입니다."
-            }
-          }
-  
-          return {
-            ok:true
-          }
-        }
-        catch(e){
-          return{
-            ok:false,
-            error:"내부 시스템 에러가 발생했습니다."
-          }
-        }
-        
+        return
       }
 
-      async createAccount({name,email,password}:CreateAccountInput):Promise<CreateAccountOutput>{
-        try{
-          const user = this.users.create({
-            email:email,
-            password:password,
-            role:UserRole.Client,
-            name:name,
-          });
-          await this.users.save(user);
-  
-          const verification = await this.verifications.save(
-            this.verifications.create({
-              user:user
-            })
-          )
-          this.mailService.sendVerificationEmail(user.email,verification.code);
+      async createAccount({email,password}:CreateAccountInput):Promise<CreateAccountOutput>{
+        const user = await this.users.findOne({
+          select:{
+            email:true,
+          },
+          where:{
+            email:email
+          }
+        });
+
+        if (!user)
+        {
           return {
-            ok:true
+            ok:false,
+            error:"이미 등록된 이메일입니다."
           }
         }
-        catch(e){
-          return{
-            ok:false,
-            error:"회원가입 진행중 내부 시스템 에러가 발생했습니다."
-          }
-        }      
       }
 }

@@ -103,7 +103,7 @@ export class UserService{
             }
           });
   
-          if (user)
+          if (!user)
           {
             return {
               ok:false,
@@ -124,7 +124,7 @@ export class UserService{
         
       }
 
-      async createAccount({name,email,password}:CreateAccountInput):Promise<CreateAccountOutput>{
+      async createAccount({name,email,password,role}:CreateAccountInput):Promise<CreateAccountOutput>{
         try{
           const user = this.users.create({
             email:email,

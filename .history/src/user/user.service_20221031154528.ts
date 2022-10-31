@@ -103,7 +103,7 @@ export class UserService{
             }
           });
   
-          if (user)
+          if (!user)
           {
             return {
               ok:false,
@@ -129,7 +129,6 @@ export class UserService{
           const user = this.users.create({
             email:email,
             password:password,
-            role:UserRole.Client,
             name:name,
           });
           await this.users.save(user);

@@ -103,7 +103,7 @@ export class UserService{
             }
           });
   
-          if (user)
+          if (!user)
           {
             return {
               ok:false,

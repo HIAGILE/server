@@ -103,7 +103,7 @@ export class UserService{
             }
           });
   
-          if (user)
+          if (!user)
           {
             return {
               ok:false,
@@ -125,30 +125,13 @@ export class UserService{
       }
 
       async createAccount({name,email,password}:CreateAccountInput):Promise<CreateAccountOutput>{
-        try{
-          const user = this.users.create({
-            email:email,
-            password:password,
-            role:UserRole.Client,
-            name:name,
-          });
-          await this.users.save(user);
-  
-          const verification = await this.verifications.save(
-            this.verifications.create({
-              user:user
-            })
-          )
-          this.mailService.sendVerificationEmail(user.email,verification.code);
-          return {
-            ok:true
-          }
-        }
-        catch(e){
-          return{
-            ok:false,
-            error:"회원가입 진행중 내부 시스템 에러가 발생했습니다."
-          }
-        }      
+        const user = this.users.create({
+          email:email,
+          password:password,
+          role:UserRole.Client,
+          name:name,
+        })
+        await this.users.save(user);
+        
       }
 }

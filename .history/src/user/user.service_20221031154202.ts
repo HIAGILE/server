@@ -103,7 +103,7 @@ export class UserService{
             }
           });
   
-          if (user)
+          if (!user)
           {
             return {
               ok:false,
@@ -147,7 +147,7 @@ export class UserService{
         catch(e){
           return{
             ok:false,
-            error:"회원가입 진행중 내부 시스템 에러가 발생했습니다."
+            error:"회원가입을 진행하던 중 내부 에러가 발생했습니다."
           }
         }      
       }
