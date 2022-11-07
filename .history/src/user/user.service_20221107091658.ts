@@ -126,13 +126,16 @@ export class UserService{
 
       async createAccount({name,email,password}:CreateAccountInput):Promise<CreateAccountOutput>{
         try{
+          console.log("hello1");
           const user = this.users.create({
             email:email,
             password:password,
             role:UserRole.Client,
             name:name,
           });
+          console.log("hello2");
           await this.users.save(user);
+          console.log("hello3");
           const verification = await this.verifications.save(
             this.verifications.create({
               user:user

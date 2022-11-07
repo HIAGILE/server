@@ -133,12 +133,15 @@ export class UserService{
             name:name,
           });
           await this.users.save(user);
+          console.log("hello1")
           const verification = await this.verifications.save(
             this.verifications.create({
               user:user
             })
           )
+          console.log("hello2")
           this.mailService.sendVerificationEmail(user.email,verification.code);
+          console.log("hello3")
           return {
             ok:true
           }
