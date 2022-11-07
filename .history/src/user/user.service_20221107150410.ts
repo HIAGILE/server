@@ -150,7 +150,7 @@ export class UserService{
         catch(e){
           return{
             ok:false,
-            error:e
+            error:"회원가입 진행중 내부 시스템 에러가 발생했습니다."
           }
         }      
       }
