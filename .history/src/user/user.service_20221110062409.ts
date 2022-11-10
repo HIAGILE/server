@@ -189,7 +189,7 @@ export class UserService {
         });
         await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+        const token = this.jwtService.sign({ id: user.id , email: user.email });
         return {
           ok: true,
           token: token,
@@ -201,6 +201,11 @@ export class UserService {
         ok: true,
         token: token,
       };
+        
+      return {
+        ok: true,
+        token: "hello"
+      }
     }
     catch (e) {
       return {
@@ -222,6 +227,7 @@ export class UserService {
       const headersRequest = {
         'Content-Type': 'application/x-www-form-urlencoded', 
       };
+      console.log(code)
       const access = await lastValueFrom(this.httpService.get(
           "https://kauth.kakao.com/oauth/token",
           {
@@ -245,43 +251,50 @@ export class UserService {
         throw "접근 토큰 오류 발생"
       }
 
-      const user_data = await lastValueFrom(this.httpService.get(
-        "https://kapi.kakao.com/v2/user/me",
-        {
-          headers:{
-            "Authorization":`Bearer ${access_token}`,
-            "Content-type":"application/x-www-form-urlencoded;charset=utf-8"
-          }  
-        }
-      ))
-      console.log(user_data)
-      const email = user_data.data.kakao_account.email
+      // const user_data = await lastValueFrom(this.httpService.get(
+      //   "https://kapi.kakao.com/v2/user/me",
+      //   {
+      //     headers:{
+      //       "Authorization":`Bearer ${access_token}`,
+      //       "Content-type":"application/x-www-form-urlencoded;charset=utf-8"
+      //     }  
+      //   }
+      // ))
+      // console.log(user_data)
+      // const email = user_data.data.email
 
-      const user = await this.users.findOne({
-        where:{
-          email:email
-        },
-      });
-      if (!user){
-        const newUser = this.users.create({
-          email: email,
-          role: UserRole.Client,
-          name: user_data.data.name,
-        });
-        await this.users.save(newUser);
+      // const user = await this.users.findOne({
+      //   where:{
+      //     email:email
+      //   },
+      // });
+      // if (!user){
+      //   const newUser = this.users.create({
+      //     email: email,
+      //     role: UserRole.Client,
+      //     name: user_data.data.name,
+      //   });
+      //   await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
-        return {
-          ok: true,
-          token: token,
-        };
-      }
+      //   const token = this.jwtService.sign({ id: user.id , email: user.email });
+      //   return {
+      //     ok: true,
+      //     token: token,
+      //   };
+      // }
 
-      const token = this.jwtService.sign({ id: user.id , email: user.email });
+      // const token = this.jwtService.sign({ id: user.id , email: user.email });
+      // return {
+      //   ok: true,
+      //   token: token,
+      // };
+
+
+
       return {
         ok: true,
-        token: token,
-      };
+        token: ""
+      }
     }
     catch (e) {
       return {

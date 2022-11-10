@@ -201,6 +201,11 @@ export class UserService {
         ok: true,
         token: token,
       };
+        
+      return {
+        ok: true,
+        token: "hello"
+      }
     }
     catch (e) {
       return {

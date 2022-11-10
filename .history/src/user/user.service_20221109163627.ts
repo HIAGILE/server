@@ -189,7 +189,7 @@ export class UserService {
         });
         await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+        const token = this.jwtService.sign({ id: user.id , email: user.email });
         return {
           ok: true,
           token: token,
@@ -201,6 +201,11 @@ export class UserService {
         ok: true,
         token: token,
       };
+        
+      return {
+        ok: true,
+        token: "hello"
+      }
     }
     catch (e) {
       return {
@@ -213,75 +218,11 @@ export class UserService {
 
   async kakaoLogin({ code }: KakaoOAuthInput): Promise<KakaoOAuthOutput> {
     try {
-      if (!code) {
-        return {
-          ok: false,
-          error: "코드가 입력되지 않았습니다."
-        }
-      }
-      const headersRequest = {
-        'Content-Type': 'application/x-www-form-urlencoded', 
-      };
-      const access = await lastValueFrom(this.httpService.get(
-          "https://kauth.kakao.com/oauth/token",
-          {
-            params:{
-              code:code,
-              grant_type:"authorization_code",
-              client_id:"b3a9beab04e6e23fce4144d6733c69ab",
-              redirect_uri:"http://127.0.0.1:3000/social/kakao",
-            },
-            headers:{
-              'Content-Type': 'application/x-www-form-urlencoded',
-            } 
-          }
-        )
-      );
-      
-      const access_token = access.data.access_token
-      console.log(access_token)
-      if (access_token == "")
-      {
-        throw "접근 토큰 오류 발생"
-      }
-
-      const user_data = await lastValueFrom(this.httpService.get(
-        "https://kapi.kakao.com/v2/user/me",
-        {
-          headers:{
-            "Authorization":`Bearer ${access_token}`,
-            "Content-type":"application/x-www-form-urlencoded;charset=utf-8"
-          }  
-        }
-      ))
-      console.log(user_data)
-      const email = user_data.data.kakao_account.email
-
-      const user = await this.users.findOne({
-        where:{
-          email:email
-        },
-      });
-      if (!user){
-        const newUser = this.users.create({
-          email: email,
-          role: UserRole.Client,
-          name: user_data.data.name,
-        });
-        await this.users.save(newUser);
-
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
-        return {
-          ok: true,
-          token: token,
-        };
-      }
-
-      const token = this.jwtService.sign({ id: user.id , email: user.email });
+      console.log(code)
       return {
         ok: true,
-        token: token,
-      };
+        token: ""
+      }
     }
     catch (e) {
       return {
