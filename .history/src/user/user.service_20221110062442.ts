@@ -189,7 +189,7 @@ export class UserService {
         });
         await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+        const token = this.jwtService.sign({ id: user.id , email: user.email });
         return {
           ok: true,
           token: token,
@@ -201,6 +201,11 @@ export class UserService {
         ok: true,
         token: token,
       };
+        
+      return {
+        ok: true,
+        token: "hello"
+      }
     }
     catch (e) {
       return {
@@ -255,33 +260,40 @@ export class UserService {
         }
       ))
       console.log(user_data)
-      const email = user_data.data.kakao_account.email
+      //const email = user_data.data.email
 
-      const user = await this.users.findOne({
-        where:{
-          email:email
-        },
-      });
-      if (!user){
-        const newUser = this.users.create({
-          email: email,
-          role: UserRole.Client,
-          name: user_data.data.name,
-        });
-        await this.users.save(newUser);
+      // const user = await this.users.findOne({
+      //   where:{
+      //     email:email
+      //   },
+      // });
+      // if (!user){
+      //   const newUser = this.users.create({
+      //     email: email,
+      //     role: UserRole.Client,
+      //     name: user_data.data.name,
+      //   });
+      //   await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
-        return {
-          ok: true,
-          token: token,
-        };
-      }
+      //   const token = this.jwtService.sign({ id: user.id , email: user.email });
+      //   return {
+      //     ok: true,
+      //     token: token,
+      //   };
+      // }
 
-      const token = this.jwtService.sign({ id: user.id , email: user.email });
+      // const token = this.jwtService.sign({ id: user.id , email: user.email });
+      // return {
+      //   ok: true,
+      //   token: token,
+      // };
+
+
+
       return {
         ok: true,
-        token: token,
-      };
+        token: ""
+      }
     }
     catch (e) {
       return {

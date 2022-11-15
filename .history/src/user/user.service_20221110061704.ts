@@ -189,7 +189,7 @@ export class UserService {
         });
         await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+        const token = this.jwtService.sign({ id: user.id , email: user.email });
         return {
           ok: true,
           token: token,
@@ -201,6 +201,11 @@ export class UserService {
         ok: true,
         token: token,
       };
+        
+      return {
+        ok: true,
+        token: "hello"
+      }
     }
     catch (e) {
       return {
@@ -227,7 +232,7 @@ export class UserService {
           {
             params:{
               code:code,
-              grant_type:"authorization_code",
+              grant_type:"7cf6aa6be0c8c9c03214",
               client_id:"b3a9beab04e6e23fce4144d6733c69ab",
               redirect_uri:"http://127.0.0.1:3000/social/kakao",
             },
@@ -237,9 +242,8 @@ export class UserService {
           }
         )
       );
-      
       const access_token = access.data.access_token
-      console.log(access_token)
+      
       if (access_token == "")
       {
         throw "접근 토큰 오류 발생"
@@ -255,7 +259,7 @@ export class UserService {
         }
       ))
       console.log(user_data)
-      const email = user_data.data.kakao_account.email
+      const email = user_data.data.email
 
       const user = await this.users.findOne({
         where:{
@@ -270,7 +274,7 @@ export class UserService {
         });
         await this.users.save(newUser);
 
-        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+        const token = this.jwtService.sign({ id: user.id , email: user.email });
         return {
           ok: true,
           token: token,
@@ -282,6 +286,13 @@ export class UserService {
         ok: true,
         token: token,
       };
+
+
+
+      return {
+        ok: true,
+        token: ""
+      }
     }
     catch (e) {
       return {

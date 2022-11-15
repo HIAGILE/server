@@ -13,7 +13,4 @@ export class ProjectResolver{
     async createProject(@AuthUser() authUser: User, @Args('input') createProjectInput: CreateProjectInput): Promise<CreateProjectOutput>{
         return await this.projectService.createProject(createProjectInput,authUser);
     }
-
-    // @Mutation((returns) => CreateProjectOutput)
-    // async addMembers(@AuthUser() AuthUser:User, @Args('input'))
 }
