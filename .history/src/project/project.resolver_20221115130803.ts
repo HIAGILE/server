@@ -10,10 +10,7 @@ export class ProjectResolver{
     constructor(private readonly projectService:ProjectService){}
 
     @Mutation((returns) => CreateProjectOutput)
-    async createProject(@AuthUser() authUser: User, @Args('input') createProjectInput: CreateProjectInput): Promise<CreateProjectOutput>{
+    async createAccount(@AuthUser() authUser: User, @Args('input') createProjectInput: CreateProjectInput): Promise<CreateProjectOutput>{
         return await this.projectService.createProject(createProjectInput,authUser);
     }
-
-    // @Mutation((returns) => CreateProjectOutput)
-    // async addMembers(@AuthUser() AuthUser:User, @Args('input'))
 }

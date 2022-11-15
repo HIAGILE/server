@@ -6,7 +6,6 @@ import { Project } from "src/project/entities/project.entity";
 import { Member } from "src/member/entities/member.entity";
 import { InternalServerErrorException } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
-import { Friends } from "src/friends/entities/friends.entity";
 
 export enum UserRole{
     Master = "Master",
@@ -49,10 +48,6 @@ export class User extends CoreEntity{
     @Field((type) => [Member])
     @OneToMany((type) => Member,(member)=>member.user,)
     members:Member[]
-
-    @Field((type) => [Friends])
-    @OneToMany((type) => Friends,(friends)=>friends.user,)
-    friends:Friends[]
 
     @BeforeUpdate()
     @BeforeInsert()

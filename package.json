@@ -38,6 +38,7 @@
     "cross-env": "^7.0.3",
     "got": "^11.8.3",
     "graphql": "^16.6.0",
+    "graphql-subscriptions": "^2.0.0",
     "joi": "^17.6.4",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
