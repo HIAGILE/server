@@ -66,12 +66,9 @@ export class UserService {
     try {
       const user = await this.users.findOne({
         select: {
-          id:true,
           email: true,
           password: true,
           name: true,
-          verified:true,
-          role:true,
         },
         where: {
           email: email
@@ -91,13 +88,7 @@ export class UserService {
         };
       }
       // make a JWT and giv it to the user
-      const token = this.jwtService.sign({ 
-        id: user.id,
-        email: user.email,
-        name:user.name,
-        verified:user.verified,
-        role:user.role,
-      });
+      const token = this.jwtService.sign({ id: user.id, email: user.email });
       return {
         ok: true,
         token: token,
@@ -277,6 +268,7 @@ export class UserService {
           name: user_data.data.name,
         });
         await this.users.save(newUser);
+        console.log(newUser)
         const token = this.jwtService.sign({ id: newUser.id, email: newUser.email });
         return {
           ok: true,

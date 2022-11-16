@@ -15,13 +15,18 @@ export class AuthGuard implements CanActivate{
         private readonly userService:UserService,
         ){}
     async canActivate(context: ExecutionContext){
+        
         const roles  = this.reflector.get<AllowedRoles>('role',context.getHandler());
+        console.log("token1")
         if(!roles)
         {
             return true;
         }
+        console.log("token2")
         const gqlContext = GqlExecutionContext.create(context).getContext();
         const token = gqlContext.token;
+        console.log("token3")
+        console.log(token)
         if (token) {
             const decoded = this.jwtService.verify(token.toString());
             if (typeof decoded === 'object' && decoded.hasOwnProperty('id')) {

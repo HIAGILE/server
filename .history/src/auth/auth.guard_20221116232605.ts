@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate{
         private readonly userService:UserService,
         ){}
     async canActivate(context: ExecutionContext){
-        const roles  = this.reflector.get<AllowedRoles>('role',context.getHandler());
+        const roles  = this.reflector.get<AllowedRoles>('roles',context.getHandler());
         if(!roles)
         {
             return true;
@@ -23,7 +23,9 @@ export class AuthGuard implements CanActivate{
         const gqlContext = GqlExecutionContext.create(context).getContext();
         const token = gqlContext.token;
         if (token) {
+            console.log(token)
             const decoded = this.jwtService.verify(token.toString());
+            console.log("canActivate")
             if (typeof decoded === 'object' && decoded.hasOwnProperty('id')) {
               const { user } = await this.userService.findById(decoded['id']);
               if (user) {

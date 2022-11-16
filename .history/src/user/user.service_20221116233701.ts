@@ -90,6 +90,7 @@ export class UserService {
           error: 'Wrong Password',
         };
       }
+      console.log(user)
       // make a JWT and giv it to the user
       const token = this.jwtService.sign({ 
         id: user.id,

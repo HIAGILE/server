@@ -70,8 +70,6 @@ export class UserService {
           email: true,
           password: true,
           name: true,
-          verified:true,
-          role:true,
         },
         where: {
           email: email
@@ -90,14 +88,9 @@ export class UserService {
           error: 'Wrong Password',
         };
       }
+      console.log(user)
       // make a JWT and giv it to the user
-      const token = this.jwtService.sign({ 
-        id: user.id,
-        email: user.email,
-        name:user.name,
-        verified:user.verified,
-        role:user.role,
-      });
+      const token = this.jwtService.sign({ id: user.id, email: user.email });
       return {
         ok: true,
         token: token,
