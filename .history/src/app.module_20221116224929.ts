@@ -22,7 +22,7 @@ import { MailModule } from './mail/mail.module';
 import { FriendsModule } from './friends/friends.module';
 import * as Joi from 'joi';
 import { Friends } from './friends/entities/friends.entity';
-import { Context } from 'apollo-server-core';
+import { Context } from 'vm';
 
 
 @Module({
@@ -31,7 +31,7 @@ import { Context } from 'apollo-server-core';
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'developer' ? '.env.developer' : '.env.test',
       ignoreEnvFile: process.env.NODE_ENV === 'production',
-      validationSchema: Joi.object({
+      validationSchema:Joi.object({
         NODE_ENV: Joi.string().valid('developer', 'production', 'test').required(),
         DB_HOST: Joi.string(),
         DB_PORT: Joi.string(),
@@ -49,23 +49,23 @@ import { Context } from 'apollo-server-core';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver, // 아폴로 드라이버 옵션
       autoSchemaFile: true, // Schema 파일 생성 여부 옵션
-      introspection: true,
-      installSubscriptionHandlers: true,
-      persistedQueries: false,
-      playground: true,
-      subscriptions: {
-        'graphql-ws': {
-          onConnect: (context: Context<any>) => {
-            const { connectionParams, extra } = context;
+      introspection:true,
+      installSubscriptionHandlers:true,
+      persistedQueries:false,
+      playground:true,
+      subscriptions:{
+        'graphql-ws':{
+          onConnect:(context:Context<any>) =>{
+            const {connectionParams, extra} = context;
             extra.token = connectionParams['x-jwt'];
           },
         },
       },
-      context: ({ req, extra }) => {
-        if (extra) {
-          return { token: extra.token };
-        } else {
-          return { token: req.headers['x-jwt'] };
+      context:({req,extra}) => {
+        if(extra){
+          return {token: extra.token};
+        }else{
+          return {token: req.headers['x-jwt']};
         }
       },
     }),
@@ -74,38 +74,38 @@ import { Context } from 'apollo-server-core';
       ...(process.env.DATABASE_URL
         ? { url: process.env.DATABASE_URL }
         : {
-          host: process.env.DB_HOST,
-          port: +process.env.DB_PORT,
-          username: process.env.DB_USERNAME,
-          password: process.env.DB_PASSWORD,
-          database: process.env.DB_NAME,
-        }),
+            host: process.env.DB_HOST,
+            port: +process.env.DB_PORT,
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
+          }),
       synchronize: true,
       logging:
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',
-      entities: [User, Project, Sprint, Member, ToDoList, Verification, Friends],
+      entities: [User,Project,Sprint,Member,ToDoList,Verification,Friends],
     }),
-    UserModule,
-    ProjectModule,
-    MemberModule,
-    SprintModule,
-    JwtModule.forRoot({
-      privateKey: process.env.PRIVATE_KEY,
-    }),
-    TodolistModule,
-    AuthModule,
-    CommonModule,
-    MailModule.forRoot({
-      apiKey: process.env.MAILGUN_API_KEY,
-      domain: process.env.MAILGUN_DOMAIN_NAME,
-      fromEmail: process.env.MAILGUN_FROM_EMAIL,
-    }),
-    FriendsModule],
+  UserModule,
+  ProjectModule,
+  MemberModule,
+  SprintModule,
+  JwtModule.forRoot({
+    privateKey: process.env.PRIVATE_KEY,
+  }),
+  TodolistModule,
+  AuthModule,
+  CommonModule,
+  MailModule.forRoot({
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN_NAME,
+    fromEmail: process.env.MAILGUN_FROM_EMAIL,
+  }),
+  FriendsModule],
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
+export class AppModule implements NestModule{ 
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(JwtMiddleware).forRoutes({
       path: '/graphql',

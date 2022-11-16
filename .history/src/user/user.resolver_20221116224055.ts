@@ -24,9 +24,9 @@ export class UserResolver {
     }
 
     @Query((returns) => User)
-    @Role(['Any'])
-    me(@AuthUser() authUser: User) {
-        return authUser;
+    @Role(['Any','Client'])
+    me() {
+        return true;
     }
 
     @Query((returns) => UserProfileOutput)

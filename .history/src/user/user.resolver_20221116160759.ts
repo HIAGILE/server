@@ -5,7 +5,6 @@ import { CreateAccountInput, CreateAccountOutput, ValidateAccountInput, Validate
 import { GitHubOAuthInput, GitHubOAuthOutput } from "./dtos/github-oauth-login.dto";
 import { KakaoOAuthInput, KakaoOAuthOutput } from "./dtos/kakao-oauth-login.dto";
 import { LoginInput, LoginOutput } from "./dtos/login.dto";
-import { UserProfileInput, UserProfileOutput } from "./dtos/user-profile.dto";
 import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
 
@@ -26,15 +25,8 @@ export class UserResolver {
     @Query((returns) => User)
     @Role(['Any'])
     me(@AuthUser() authUser: User) {
+        console.log("authUser")
         return authUser;
-    }
-
-    @Query((returns) => UserProfileOutput)
-    @Role(['Any'])
-    async userProfile(
-        @Args() userProfileInput: UserProfileInput,
-    ): Promise<UserProfileOutput> {
-        return await this.userService.findById(userProfileInput.userId);
     }
 
     @Query((returns) => ValidateAccountOutput)
