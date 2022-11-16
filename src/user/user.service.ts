@@ -189,7 +189,11 @@ export class UserService {
         });
         await this.users.save(newUser);
 
+<<<<<<< HEAD
         const token = this.jwtService.sign({ id: newUser.id, email: newUser.email });
+=======
+        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
         return {
           ok: true,
           token: token,
@@ -220,6 +224,7 @@ export class UserService {
         }
       }
       const headersRequest = {
+<<<<<<< HEAD
         'Content-Type': 'application/x-www-form-urlencoded',
       };
       const access = await lastValueFrom(this.httpService.get(
@@ -241,27 +246,66 @@ export class UserService {
       const access_token = access.data.access_token
       console.log(access_token)
       if (access_token == "") {
+=======
+        'Content-Type': 'application/x-www-form-urlencoded', 
+      };
+      const access = await lastValueFrom(this.httpService.get(
+          "https://kauth.kakao.com/oauth/token",
+          {
+            params:{
+              code:code,
+              grant_type:"authorization_code",
+              client_id:"b3a9beab04e6e23fce4144d6733c69ab",
+              redirect_uri:"http://127.0.0.1:3000/social/kakao",
+            },
+            headers:{
+              'Content-Type': 'application/x-www-form-urlencoded',
+            } 
+          }
+        )
+      );
+      
+      const access_token = access.data.access_token
+      console.log(access_token)
+      if (access_token == "")
+      {
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
         throw "접근 토큰 오류 발생"
       }
 
       const user_data = await lastValueFrom(this.httpService.get(
         "https://kapi.kakao.com/v2/user/me",
         {
+<<<<<<< HEAD
           headers: {
             "Authorization": `Bearer ${access_token}`,
             "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
           }
+=======
+          headers:{
+            "Authorization":`Bearer ${access_token}`,
+            "Content-type":"application/x-www-form-urlencoded;charset=utf-8"
+          }  
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
         }
       ))
       console.log(user_data)
       const email = user_data.data.kakao_account.email
 
       const user = await this.users.findOne({
+<<<<<<< HEAD
         where: {
           email: email
         },
       });
       if (!user) {
+=======
+        where:{
+          email:email
+        },
+      });
+      if (!user){
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
         const newUser = this.users.create({
           email: email,
           role: UserRole.Client,
@@ -269,14 +313,22 @@ export class UserService {
         });
         await this.users.save(newUser);
 
+<<<<<<< HEAD
         const token = this.jwtService.sign({ id: newUser.id, email: newUser.email });
+=======
+        const token = this.jwtService.sign({ id: newUser.id , email: newUser.email });
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
         return {
           ok: true,
           token: token,
         };
       }
 
+<<<<<<< HEAD
       const token = this.jwtService.sign({ id: user.id, email: user.email });
+=======
+      const token = this.jwtService.sign({ id: user.id , email: user.email });
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
       return {
         ok: true,
         token: token,

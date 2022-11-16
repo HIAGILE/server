@@ -22,7 +22,10 @@ import { MailModule } from './mail/mail.module';
 import { FriendsModule } from './friends/friends.module';
 import * as Joi from 'joi';
 import { Friends } from './friends/entities/friends.entity';
+<<<<<<< HEAD
 import { Context } from 'apollo-server-core';
+=======
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
 
 
 @Module({
@@ -84,6 +87,7 @@ import { Context } from 'apollo-server-core';
       logging:
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',
+<<<<<<< HEAD
       entities: [User, Project, Sprint, Member, ToDoList, Verification, Friends],
     }),
     UserModule,
@@ -102,6 +106,26 @@ import { Context } from 'apollo-server-core';
       fromEmail: process.env.MAILGUN_FROM_EMAIL,
     }),
     FriendsModule],
+=======
+      entities: [User,Project,Sprint,Member,ToDoList,Verification,Friends],
+    }),
+  UserModule,
+  ProjectModule,
+  MemberModule,
+  SprintModule,
+  JwtModule.forRoot({
+    privateKey: process.env.PRIVATE_KEY,
+  }),
+  TodolistModule,
+  AuthModule,
+  CommonModule,
+  MailModule.forRoot({
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN_NAME,
+    fromEmail: process.env.MAILGUN_FROM_EMAIL,
+  }),
+  FriendsModule],
+>>>>>>> dde66b0166fb4577dabb2f7d84cd4fc9f87f462a
   controllers: [],
   providers: [],
 })
