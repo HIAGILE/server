@@ -13,6 +13,7 @@ export class ProjectService{
     ){}
 
     async createProject({name,githubURL,code}:CreateProjectInput,user:User):Promise<CreateProjectOutput>{
+        console.log(user)
         try{
             let projectCode;
             if (code === "SCRUM"){

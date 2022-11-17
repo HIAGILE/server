@@ -106,13 +106,13 @@ export class UserService {
             verified:true,
           },
           where: {
-            id: friend.friendId,
+            id: friend.userId,
           },
           relations: ["projects"]
         });
 
         if (user){
-          friendsList.push(user);
+          friendsList.push(friend);
         }
       }
       return {

@@ -58,11 +58,11 @@ export class UserService {
 
       this.friends.save(this.friends.create({
         verified:true,
-        user: user,
-        friendId: userId
+        user: user
+        
       }));
       
-      const result = await this.getFriends({userId:authUser.id});
+      const result = await this.getFriends({userId:userId});
       return {
         ok: true,
         friends: result.friends,
@@ -106,13 +106,13 @@ export class UserService {
             verified:true,
           },
           where: {
-            id: friend.friendId,
+            id: friend.userId,
           },
           relations: ["projects"]
         });
 
         if (user){
-          friendsList.push(user);
+          friendsList.push(friend);
         }
       }
       return {

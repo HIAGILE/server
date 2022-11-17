@@ -40,29 +40,28 @@ export class UserService {
     });
   }
 
-  async addFriends({userId}:AddFriendsInput,authUser:User):Promise<AddFriendsOutput>{
+  async addFriends({userId}:AddFriendsInput):Promise<AddFriendsOutput>{
     try{
-      // AuthUser의 정보를 가져온다.
       const user = await this.users.findOne({
         where: {
-          id: authUser.id,
+          id: userId,
         },
       });
-      // AuthUser가 없다면 에러를 리턴한다.
+
       if(!user){
         return {
           ok: false,
           error: "User Not Found"
         }
       }
+      console.log(user);
 
       this.friends.save(this.friends.create({
         verified:true,
-        user: user,
-        friendId: userId
+        user: user
       }));
       
-      const result = await this.getFriends({userId:authUser.id});
+      const result = await this.getFriends({userId:userId});
       return {
         ok: true,
         friends: result.friends,
@@ -106,13 +105,13 @@ export class UserService {
             verified:true,
           },
           where: {
-            id: friend.friendId,
+            id: friend.userId,
           },
           relations: ["projects"]
         });
 
         if (user){
-          friendsList.push(user);
+          friendsList.push(friend);
         }
       }
       return {

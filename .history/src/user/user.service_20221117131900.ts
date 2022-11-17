@@ -14,8 +14,6 @@ import { HttpService } from "@nestjs/axios";
 import { firstValueFrom, interval, lastValueFrom, map, Observable } from "rxjs";
 import { AxiosResponse } from "axios";
 import { GetFriendsInput, GetFriendsOutput } from "./dtos/get-friends.dto";
-import { AddFriendsInput, AddFriendsOutput } from "./dtos/add-firends.dto";
-import { Friends } from "src/friends/entities/friends.entity";
 
 
 @Injectable()
@@ -24,8 +22,6 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly users: Repository<User>,
-    @InjectRepository(Friends)
-    private readonly friends: Repository<Friends>,
     @InjectRepository(Verification)
     private readonly verifications: Repository<Verification>,
     private readonly jwtService: JwtService,
@@ -38,42 +34,6 @@ export class UserService {
     return this.users.find({
       relations: ["projects"]
     });
-  }
-
-  async addFriends({userId}:AddFriendsInput,authUser:User):Promise<AddFriendsOutput>{
-    try{
-      // AuthUser의 정보를 가져온다.
-      const user = await this.users.findOne({
-        where: {
-          id: authUser.id,
-        },
-      });
-      // AuthUser가 없다면 에러를 리턴한다.
-      if(!user){
-        return {
-          ok: false,
-          error: "User Not Found"
-        }
-      }
-
-      this.friends.save(this.friends.create({
-        verified:true,
-        user: user,
-        friendId: userId
-      }));
-      
-      const result = await this.getFriends({userId:authUser.id});
-      return {
-        ok: true,
-        friends: result.friends,
-      }
-    }
-    catch(e){
-      return {
-        ok:false,
-        error:e
-      }
-    }
   }
 
 
@@ -106,13 +66,13 @@ export class UserService {
             verified:true,
           },
           where: {
-            id: friend.friendId,
+            id: friend.userId,
           },
           relations: ["projects"]
         });
 
         if (user){
-          friendsList.push(user);
+          friendsList.push(friend);
         }
       }
       return {

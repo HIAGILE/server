@@ -112,7 +112,7 @@ export class UserService {
         });
 
         if (user){
-          friendsList.push(user);
+          friendsList.push(friend);
         }
       }
       return {

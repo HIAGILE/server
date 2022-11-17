@@ -12,7 +12,7 @@ export class ProjectService{
         private readonly projects:Repository<Project>,
     ){}
 
-    async createProject({name,githubURL,code}:CreateProjectInput,user:User):Promise<CreateProjectOutput>{
+    async createProject({name,gitURL,code}:CreateProjectInput,user:User):Promise<CreateProjectOutput>{
         try{
             let projectCode;
             if (code === "SCRUM"){
@@ -29,7 +29,7 @@ export class ProjectService{
             }
             const project = this.projects.create({
                 name:name,
-                githubURL:githubURL,
+                gitURL:gitURL,
                 owner:user,
                 code:projectCode
             })

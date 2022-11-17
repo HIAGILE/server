@@ -28,10 +28,8 @@ export class UserResolver {
 
     @Mutation((returns) => AddFriendsOutput)
     @Role(['Any'])
-    async addFriends(
-        @AuthUser() authUser:User,
-        @Args('input') addFriendsInput: AddFriendsInput): Promise<AddFriendsOutput> {
-        return this.userService.addFriends(addFriendsInput,authUser);
+    async addFriends(@Args('input') addFriendsInput: AddFriendsInput): Promise<AddFriendsOutput> {
+        return this.userService.addFriends(addFriendsInput);
     }
 
     @Mutation((returns) => LoginOutput)

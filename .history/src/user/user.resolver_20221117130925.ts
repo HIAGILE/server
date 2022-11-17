@@ -1,7 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { AuthUser } from "src/auth/auth-user.decorator";
 import { Role } from "src/auth/role.decorator";
-import { AddFriendsInput, AddFriendsOutput } from "./dtos/add-firends.dto";
 import { CreateAccountInput, CreateAccountOutput, ValidateAccountInput, ValidateAccountOutput } from "./dtos/create-account.dto";
 import { GetFriendsInput, GetFriendsOutput } from "./dtos/get-friends.dto";
 import { GitHubOAuthInput, GitHubOAuthOutput } from "./dtos/github-oauth-login.dto";
@@ -23,15 +22,7 @@ export class UserResolver {
     @Query((returns) => GetFriendsOutput)
     @Role(['Any'])
     async getFriends(@Args('input') getFriendsInput:GetFriendsInput): Promise<GetFriendsOutput> {
-        return this.userService.getFriends(getFriendsInput);
-    }
-
-    @Mutation((returns) => AddFriendsOutput)
-    @Role(['Any'])
-    async addFriends(
-        @AuthUser() authUser:User,
-        @Args('input') addFriendsInput: AddFriendsInput): Promise<AddFriendsOutput> {
-        return this.userService.addFriends(addFriendsInput,authUser);
+        return this.userService.getFriends();
     }
 
     @Mutation((returns) => LoginOutput)

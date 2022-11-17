@@ -25,7 +25,7 @@ export class Friends extends CoreEntity {
     @IsBoolean()
     verified:boolean;
 
-    @Column({ nullable: false })
+    @Column({ nullable: true })
     @Field((type) => Number)
     @IsNumber()
     friendId:number;
