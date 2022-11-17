@@ -3,7 +3,7 @@ import { AuthUser } from "src/auth/auth-user.decorator";
 import { Role } from "src/auth/role.decorator";
 import { User } from "src/user/entities/user.entity";
 import { CreateProjectInput, CreateProjectOutput } from "./dtos/create_project";
-import { GetProjectsInput, GetProjectsOutput } from "./dtos/get-projects";
+import { GetProjectInput, GetProjectOutput } from "./dtos/get-projects";
 import { Project } from "./entities/project.entity";
 import { ProjectService } from "./project.service";
 
@@ -17,9 +17,9 @@ export class ProjectResolver {
         return await this.projectService.createProject(createProjectInput, authUser);
     }
 
-    @Query((returns) => GetProjectsOutput)
+    @Query((returns) => GetProjectOutput)
     @Role(['Any'])
-    async getProjects(@AuthUser() authUser: User, @Args('input') getProjectsInput: GetProjectsInput): Promise<GetProjectsOutput> {
+    async getProjects(@AuthUser() authUser: User, @Args('input') getProjectInput: GetProjectInput): Promise<GetProjectOutput> {
         return await this.projectService.getProjects(authUser);
     }
     // @Mutation((returns) => CreateProjectOutput)

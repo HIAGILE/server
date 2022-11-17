@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateProjectInput, CreateProjectOutput } from "./dtos/create_project";
-import { GetProjectsOutput } from "./dtos/get-projects";
+import { GetProjectOutput } from "./dtos/get-projects";
 import { Project, ProjectCode } from "./entities/project.entity";
 
 @Injectable()
@@ -50,15 +50,12 @@ export class ProjectService{
         }
     }
 
-    async getProjects(user:User):Promise<GetProjectsOutput>{
+    async getProjects(user:User):Promise<GetProjectOutput>{
         try{
             const projects = await this.projects.find({
                 where:{
-                    owner:{
-                        id:user.id
-                    }
+                    ownerId:user.id
                 }
-                ,relations:["owner","members","members.user","sprints"]
             })
             return {
                 ok:true,

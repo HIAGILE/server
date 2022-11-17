@@ -17,7 +17,7 @@ export class ProjectResolver {
         return await this.projectService.createProject(createProjectInput, authUser);
     }
 
-    @Query((returns) => GetProjectsOutput)
+    @Query((returns) => GetProjectOutput)
     @Role(['Any'])
     async getProjects(@AuthUser() authUser: User, @Args('input') getProjectsInput: GetProjectsInput): Promise<GetProjectsOutput> {
         return await this.projectService.getProjects(authUser);
