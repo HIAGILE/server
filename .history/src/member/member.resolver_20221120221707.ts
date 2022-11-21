@@ -12,8 +12,9 @@ export class MemberResolver{
 
     @Mutation((returns) => AddMembersOutput)
     @Role(['Any'])
-    async addMembers(
+    async addFriends(
         @AuthUser() authUser:User,
+        
         @Args('input') addMembersInput: AddMembersInput): Promise<AddMembersOutput> {
         return this.memberService.addMembers(authUser,addMembersInput);
     }

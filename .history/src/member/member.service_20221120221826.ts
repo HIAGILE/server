@@ -18,8 +18,6 @@ export class MemberService{
     ){}
 
     async addMembers({id}:User, {projectId,members}:AddMembersInput):Promise<AddMembersOutput>{
-        console.log(id);
-        console.log(projectId);
         const pm = await this.projects.findOne({
             where:{
                 id:projectId,

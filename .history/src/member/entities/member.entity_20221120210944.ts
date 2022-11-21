@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
+import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import { IsEnum, IsString } from "class-validator";
 import { type } from "os";
 import { CoreEntity } from "src/common/entities/core.entity";
@@ -10,8 +10,6 @@ export enum ProjectRole{
     Leader = "Leader",
     member = "member",
 }
-
-registerEnumType(ProjectRole,{name:'ProjectRole'})
 
 @InputType('MemberInputType', { isAbstract: true })
 @ObjectType()
@@ -40,8 +38,8 @@ export class Member extends CoreEntity {
     @RelationId((member:Member) => member.user)
     userId:number;
 
-    @Column({default:false,nullable:true})
-    @Field((type)=>ProjectRole,{nullable:true})
+    @Column({default:false})
+    @Field((type)=>ProjectRole)
     @IsEnum(ProjectRole)
     role:ProjectRole;
 }

@@ -14,6 +14,7 @@ export class MemberResolver{
     @Role(['Any'])
     async addMembers(
         @AuthUser() authUser:User,
+
         @Args('input') addMembersInput: AddMembersInput): Promise<AddMembersOutput> {
         return this.memberService.addMembers(authUser,addMembersInput);
     }

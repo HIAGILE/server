@@ -42,7 +42,7 @@ export class User extends CoreEntity{
     @IsBoolean()
     verified:boolean;
 
-    @Column({nullable:true,default:"https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/2bf0598d-f577-497f-4c11-033d1754ee00/public"})
+    @Column({nullable:true})
     @Field((type)=>String)
     profileUrl:string;
     
