@@ -83,7 +83,7 @@ export class ProjectService{
                         id:user.id
                     }
                 }
-                ,relations:["owner","members","members.user","sprints","sprints.toDoList"]
+                ,relations:["owner","members","members.user","sprints"]
             })
             return {
                 ok:true,
