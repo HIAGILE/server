@@ -13,7 +13,7 @@ export class ProjectService{
     constructor(
         @InjectRepository(Project)
         private readonly projects:Repository<Project>,
-        private readonly noticeService:NoticeService
+        private readonly noticeService:NoticeService,
     ){}
 
     async createProject({name,githubURL,code}:CreateProjectInput,user:User):Promise<CreateProjectOutput>{
@@ -39,7 +39,7 @@ export class ProjectService{
             })
             await this.projects.save(project);
 
-            await this.noticeService.noticeMaker({
+            this.noticeService.noticeMaker({
                 userId:user.id,
                 description:"프로젝트가 생성되었습니다."
             })            

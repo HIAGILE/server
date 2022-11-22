@@ -375,6 +375,7 @@ export class UserService {
       );
 
       const access_token = access.data.access_token
+      console.log(access_token)
       if (access_token == "") {
         throw "접근 토큰 오류 발생"
       }
@@ -388,6 +389,7 @@ export class UserService {
           }
         }
       ))
+      console.log(user_data)
       const email = user_data.data.kakao_account.email
 
       const user = await this.users.findOne({

@@ -20,6 +20,6 @@ export class NoticeResolver{
     async getNotices(
         @AuthUser() authUser,
     ): Promise<GetNoticesOutput> {
-        return await this.noticeService.getNotices(authUser);
+        return await this.noticeService.getNotices();
     }
 }

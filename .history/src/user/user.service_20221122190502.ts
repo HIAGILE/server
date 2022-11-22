@@ -210,6 +210,7 @@ export class UserService {
           error: '계정이 존재하지 않아요. 이메일을 확인해주세요.'
         }
       }
+      console.log(password);
       const passwordCorrect = await user.checkPassword(password);
       if (!passwordCorrect) {
         return {
@@ -375,6 +376,7 @@ export class UserService {
       );
 
       const access_token = access.data.access_token
+      console.log(access_token)
       if (access_token == "") {
         throw "접근 토큰 오류 발생"
       }
@@ -388,6 +390,7 @@ export class UserService {
           }
         }
       ))
+      console.log(user_data)
       const email = user_data.data.kakao_account.email
 
       const user = await this.users.findOne({

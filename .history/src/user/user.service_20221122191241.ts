@@ -210,6 +210,7 @@ export class UserService {
           error: '계정이 존재하지 않아요. 이메일을 확인해주세요.'
         }
       }
+      console.log("1차" + password);
       const passwordCorrect = await user.checkPassword(password);
       if (!passwordCorrect) {
         return {

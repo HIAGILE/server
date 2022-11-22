@@ -67,12 +67,12 @@ export class User extends CoreEntity{
     @BeforeInsert()
     async hashPassword(): Promise<void> {
         if (this.password) {
-            console.log(this.password);
-            try {
-                this.password = await bcrypt.hash(this.password, 10);
-            } catch (e) {
-                throw new InternalServerErrorException();
-            }
+        try {
+            this.password = await bcrypt.hash(this.password, 10);
+        } catch (e) {
+            console.log(e);
+            throw new InternalServerErrorException();
+        }
         }
     }
 

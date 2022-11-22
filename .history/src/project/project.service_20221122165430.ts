@@ -13,7 +13,7 @@ export class ProjectService{
     constructor(
         @InjectRepository(Project)
         private readonly projects:Repository<Project>,
-        private readonly noticeService:NoticeService
+        private readonly noticeService:NoticeService,
     ){}
 
     async createProject({name,githubURL,code}:CreateProjectInput,user:User):Promise<CreateProjectOutput>{
