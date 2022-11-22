@@ -2,7 +2,7 @@ import { CacheModule, Injectable, InternalServerErrorException } from "@nestjs/c
 import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "src/jwt/jwt.service";
 import { MailService } from "src/mail/mail.service";
-import { Not, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { CreateAccountInput, CreateAccountOutput, ValidateAccountInput, ValidateAccountOutput } from "./dtos/create-account.dto";
 import { LoginInput, LoginOutput } from "./dtos/login.dto";
 import { GitHubOAuthInput, GitHubOAuthOutput } from "./dtos/github-oauth-login.dto";
@@ -16,7 +16,6 @@ import { AxiosResponse } from "axios";
 import { GetFriendsInput, GetFriendsOutput } from "./dtos/get-friends.dto";
 import { AddFriendsInput, AddFriendsOutput } from "./dtos/add-firends.dto";
 import { Friends } from "src/friends/entities/friends.entity";
-import { AllUsersOutput } from "./dtos/all-users.dto";
 
 
 @Injectable()
@@ -39,38 +38,6 @@ export class UserService {
     return this.users.find({
       relations: ["projects","members"]
     });
-  }
-
-  async AllUsers(authUser:User): Promise<AllUsersOutput> {
-    try {
-      const myFriends = await this.friends.find({
-        where: {
-          user:{
-            id:authUser.id
-          },
-        }
-      });
-      const users =  await this.users.find({
-        where:{
-          id:Not(authUser.id)
-        }
-      });
-
-      if (users)
-      {
-        return {
-          ok: true,
-          users: users,
-          friends: myFriends,
-        }
-      }
-    }
-    catch (e) {
-      return {
-        ok: false,
-        error: e
-      }
-    }
   }
 
   async addFriends({userId}:AddFriendsInput,authUser:User):Promise<AddFriendsOutput>{

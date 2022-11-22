@@ -2,7 +2,7 @@ import { CacheModule, Injectable, InternalServerErrorException } from "@nestjs/c
 import { InjectRepository } from "@nestjs/typeorm";
 import { JwtService } from "src/jwt/jwt.service";
 import { MailService } from "src/mail/mail.service";
-import { Not, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { CreateAccountInput, CreateAccountOutput, ValidateAccountInput, ValidateAccountOutput } from "./dtos/create-account.dto";
 import { LoginInput, LoginOutput } from "./dtos/login.dto";
 import { GitHubOAuthInput, GitHubOAuthOutput } from "./dtos/github-oauth-login.dto";
@@ -35,33 +35,17 @@ export class UserService {
 
   ) { }
 
-  async usersAll(): Promise<User[]> {
-    return this.users.find({
-      relations: ["projects","members"]
-    });
-  }
-
-  async AllUsers(authUser:User): Promise<AllUsersOutput> {
+  async usersAll(): Promise<AllUsersOutput> {
     try {
-      const myFriends = await this.friends.find({
-        where: {
-          user:{
-            id:authUser.id
-          },
-        }
-      });
       const users =  await this.users.find({
-        where:{
-          id:Not(authUser.id)
-        }
+        relations: ["projects","members"]
       });
 
       if (users)
       {
         return {
           ok: true,
-          users: users,
-          friends: myFriends,
+          Users: users
         }
       }
     }

@@ -29,14 +29,14 @@ export class FriendsService{
                     verified:true,
                 }
             );
-            this.friends.save(friend1);
+
             const friend2 = await this.friends.create(
                 {
                     user:user,
                     friendId:authUser.id,
                 }
             );
-            this.friends.save(friend2);
+
             const my = await this.noticeService.noticeMaker({
                 userId:authUser.id,
                 description:`${user.name}님을 팔로우 하였습니다.`
