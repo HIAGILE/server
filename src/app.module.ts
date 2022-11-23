@@ -25,6 +25,7 @@ import { Friends } from './friends/entities/friends.entity';
 import { Context } from 'apollo-server-core';
 import { NoticeModule } from './notice/notice.module';
 import { Notice } from './notice/entities/notice.entity';
+import { UploadsModule } from './uploads/uploads.module';
 
 
 @Module({
@@ -104,7 +105,8 @@ import { Notice } from './notice/entities/notice.entity';
       fromEmail: process.env.MAILGUN_FROM_EMAIL,
     }),
     FriendsModule,
-    NoticeModule],
+    NoticeModule,
+    UploadsModule],
   controllers: [],
   providers: [],
 })

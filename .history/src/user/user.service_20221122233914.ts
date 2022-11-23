@@ -17,8 +17,6 @@ import { GetFriendsInput, GetFriendsOutput } from "./dtos/get-friends.dto";
 import { AddFriendsInput, AddFriendsOutput } from "./dtos/add-firends.dto";
 import { Friends } from "src/friends/entities/friends.entity";
 import { AllUsersOutput } from "./dtos/all-users.dto";
-import { EditProfileInput, EditProfileOutput } from "./dtos/edit-profile.dto";
-import { VerifyEmailOutput } from "./dtos/verify-email.dto";
 
 
 @Injectable()
@@ -114,6 +112,7 @@ export class UserService {
 
   async getFriends({userId}:GetFriendsInput): Promise<GetFriendsOutput> {
     try{
+      console.log("hello")
       const user = await this.users.findOne({
         select: {
           friends: true,
@@ -452,96 +451,6 @@ export class UserService {
         ok: false,
         error: e
       }
-    }
-  }
-
-  async editProfile(authUser, { email, password, name, profileUrl }: EditProfileInput): Promise<EditProfileOutput> {
-    try {
-      const user = await this.users.findOne(
-        {
-          select:{
-            id: true,
-            email: true,
-            password: true,
-            verified: true,
-            role: true,
-            name: true,
-            profileUrl: true,
-          },
-          where:
-          {
-            id: authUser.id
-          }
-        }
-      );
-      
-      if (!user.verified){
-        await this.verifications.delete({
-          user: { id: user.id }
-        });
-        const verification = await this.verifications.save(
-          this.verifications.create({
-            user: user
-          })
-        )
-        this.mailService.sendVerificationEmail(user.email, verification.code);
-        return {
-          ok: false,
-          error: "이메일 인증을 발송했습니다. 이메일 인증을 먼저 진행해주세요."
-        }
-      } 
-      if (email && user.email !== email) {
-        user.email = email;
-        user.verified = false;
-        await this.verifications.delete({
-          user: { id: user.id }
-        });
-        const verification = await this.verifications.save(
-          this.verifications.create({
-            user: user
-          })
-        )
-        this.mailService.sendVerificationEmail(user.email, verification.code);
-      }
-      if (password && !user.checkPassword(password)) {
-        user.password = password;
-      }
-      if (name && user.name !== name) {
-        user.name = name;
-      }
-      if (profileUrl && user.profileUrl !== profileUrl) {
-        user.profileUrl = profileUrl;
-      }
-      await this.users.save(user);
-      return {
-        ok: true,
-      }
-    }
-    catch (e) {
-      return {
-        ok: false,
-        error: e
-      }
-    }
-  }
-  
-  async verifyEmail(code: string): Promise<VerifyEmailOutput> {
-    try {
-      const verification = await this.verifications.findOne({
-        relations: ['user'],
-        where: {
-          code: code,
-        },
-      });
-      if (verification) {
-        verification.user.verified = true;
-        await this.users.save(verification.user);
-        await this.verifications.delete(verification.id);
-        return { ok: true };
-      }
-      return { ok: false, error: 'Verification not found' };
-    } catch (e) {
-      return { ok: false, error: 'Could not verify email' };
     }
   }
 }

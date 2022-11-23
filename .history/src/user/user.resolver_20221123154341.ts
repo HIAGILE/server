@@ -66,7 +66,7 @@ export class UserResolver {
 
     @Query((returns) => ValidateAccountOutput)
     async validateAccount(@Args('input') validateAccountInput:ValidateAccountInput):Promise<ValidateAccountOutput>{
-        return await this.userService.validateAccount(validateAccountInput);
+        return this.userService.validateAccount(validateAccountInput);
     }
 
     @Mutation((returns) => CreateAccountOutput)

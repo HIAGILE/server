@@ -18,7 +18,6 @@ import { AddFriendsInput, AddFriendsOutput } from "./dtos/add-firends.dto";
 import { Friends } from "src/friends/entities/friends.entity";
 import { AllUsersOutput } from "./dtos/all-users.dto";
 import { EditProfileInput, EditProfileOutput } from "./dtos/edit-profile.dto";
-import { VerifyEmailOutput } from "./dtos/verify-email.dto";
 
 
 @Injectable()
@@ -522,26 +521,6 @@ export class UserService {
         ok: false,
         error: e
       }
-    }
-  }
-  
-  async verifyEmail(code: string): Promise<VerifyEmailOutput> {
-    try {
-      const verification = await this.verifications.findOne({
-        relations: ['user'],
-        where: {
-          code: code,
-        },
-      });
-      if (verification) {
-        verification.user.verified = true;
-        await this.users.save(verification.user);
-        await this.verifications.delete(verification.id);
-        return { ok: true };
-      }
-      return { ok: false, error: 'Verification not found' };
-    } catch (e) {
-      return { ok: false, error: 'Could not verify email' };
     }
   }
 }

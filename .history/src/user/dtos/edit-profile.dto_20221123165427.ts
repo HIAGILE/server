@@ -9,4 +9,7 @@ export class EditProfileInput extends PartialType(
 ){}
 
 @ObjectType()
-export class EditProfileOutput extends CoreOutput{}
+export class EditProfileOutput extends CoreOutput{
+    @Field((type)=>String,{nullable:true})
+    profileUrl?:string;
+}
