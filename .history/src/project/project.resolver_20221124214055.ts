@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { AuthUser } from "src/auth/auth-user.decorator";
 import { Role } from "src/auth/role.decorator";
 import { User } from "src/user/entities/user.entity";
-import { CreateProjectInput, CreateProjectOutput } from "./dtos/create-project.dto";
+import { CreateProjectInput, CreateProjectOutput } from "./dtos/create_project.dto";
 import { GetProjectInput, GetProjectOutput } from "./dtos/get-project.dto";
 import { GetProjectsInput, GetProjectsOutput } from "./dtos/get-projects.dto";
 import { Project } from "./entities/project.entity";
