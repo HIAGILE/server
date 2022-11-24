@@ -11,7 +11,6 @@ import { KakaoOAuthInput, KakaoOAuthOutput } from "./dtos/kakao-oauth-login.dto"
 import { LoginInput, LoginOutput } from "./dtos/login.dto";
 import { UserProfileInput, UserProfileOutput } from "./dtos/user-profile.dto";
 import { VerificationAgainOutput } from "./dtos/verification-again.dto";
-import { VerifyEmailInput, VerifyEmailOutput } from "./dtos/verify-email.dto";
 import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
 
@@ -98,15 +97,7 @@ export class UserResolver {
     @Role(['Any'])
     async verificationAgain(
         @AuthUser() authUser:User,
-
     ):Promise<VerificationAgainOutput>{
         return await this.userService.verificationAgain(authUser);
-    }
-
-    @Mutation((returns) => VerifyEmailOutput)
-    async verifyEmail(
-        @Args('input') verifyEmailInput: VerifyEmailInput,
-    ): Promise<VerifyEmailOutput> {
-        return await this.userService.verifyEmail(verifyEmailInput.code);
     }
 }
