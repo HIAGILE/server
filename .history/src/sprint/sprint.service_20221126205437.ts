@@ -95,11 +95,7 @@ export class SprintService{
             }
         }
         catch(e){
-            return{
-                ok:false,
-                error:e,
-                sprintId:null,
-            }
+
         }
     }
 }

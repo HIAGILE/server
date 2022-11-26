@@ -610,6 +610,7 @@ export class UserService {
                     const episode = key.access_key;
                     episodeList.push(episode)
                 })
+                console.log("에피소드리스트", episodeList)
                 return {
                   ok: true,
                   keys: episodeList

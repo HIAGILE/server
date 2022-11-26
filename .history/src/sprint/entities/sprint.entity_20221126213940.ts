@@ -1,22 +1,29 @@
 import { Field, InputType, Int, ObjectType } from "@nestjs/graphql";
 import { IsDate, IsNumber, IsString } from "class-validator";
 import { CoreEntity } from "src/common/entities/core.entity";
-import { Column, Entity } from "typeorm";
+import { Project } from "src/project/entities/project.entity";
+import { ToDoList } from "src/todolist/entities/todolist.entity";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 
 
 @InputType('SprintInputType',{isAbstract:true})
 @ObjectType()
 @Entity()
 export class Sprint extends CoreEntity{
-    @Column({nullable:false})
-    @Field((type) => Date)
-    @IsDate()
-    startDate:Date;
+
+    @Field((type) => Project,{nullable:false})
+    @ManyToOne(() => Project,(project) => project.sprints)
+    project:Project;
 
     @Column({nullable:false})
     @Field((type) => Date)
     @IsDate()
-    endDate:Date;
+    startDate?:Date;
+
+    @Column({nullable:false})
+    @Field((type) => Date)
+    @IsDate()
+    endDate?:Date;
 
     @Column({nullable:false})
     @Field((type) => Int)
@@ -26,5 +33,9 @@ export class Sprint extends CoreEntity{
     @Column({nullable:false})
     @Field((type) => String)
     @IsString()
-    purpose:string;l
+    purpose:string;
+
+    @Field((type)=> [ToDoList])
+    @OneToMany(() => ToDoList,(toDoList) => toDoList.sprint)
+    toDoList?:ToDoList[];
 }

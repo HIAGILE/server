@@ -20,7 +20,6 @@ import { AllUsersOutput } from "./dtos/all-users.dto";
 import { EditProfileInput, EditProfileOutput } from "./dtos/edit-profile.dto";
 import { VerifyEmailOutput } from "./dtos/verify-email.dto";
 import { VerificationAgainOutput } from "./dtos/verification-again.dto";
-import { VideoOutput } from "./dtos/video.dto";
 
 
 @Injectable()
@@ -593,7 +592,7 @@ export class UserService {
     }
   }
 
-  async getVideoList(): Promise<VideoOutput>
+  async getVideoList(): Promise<any>
     {         
          // 비디오 가져오기 api                 
         const apiKey = 'e0a977cbc0cdbe6beadbd384931a883d'
@@ -610,10 +609,8 @@ export class UserService {
                     const episode = key.access_key;
                     episodeList.push(episode)
                 })
-                return {
-                  ok: true,
-                  keys: episodeList
-                }
+                console.log("에피소드리스트", episodeList)
+                return episodeList
             }       
         } catch (err) {
             return err

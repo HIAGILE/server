@@ -22,16 +22,6 @@ export class SprintService{
         getSprintInput:GetSprintInput
     ):Promise<GetSprintOutput>{
         try{
-            const sprint = await this.sprints.findOne({
-                where:{
-                    id:getSprintInput.id,
-                    project:{
-                        id:getSprintInput.projectId,
-                    }
-                },
-                relations:['project'],
-            });
-
             return {
                 ok:true,
                 error:null,
@@ -47,20 +37,9 @@ export class SprintService{
         getSprintsInput:GetSprintsInput
     ):Promise<GetSprintsOutput>{
         try{
-            const sprints = await this.sprints.find({
-                where:{
-                    project:{
-                        id:getSprintsInput.id,
-                    }
-                },
-                relations:['project'],
-            });
-
-
             return {
                 ok:true,
                 error:null,
-                sprints:sprints,
             }
         }
         catch(e){
@@ -73,33 +52,18 @@ export class SprintService{
         getSprintInput:CreateSprintInput
     ):Promise<CreateSprintOutput>{
         try{
-            const project = await this.projects.findOne({
-                where:{
-                    id:getSprintInput.projectId,
-                }
+            const project = await this.projects.findOne(getSprintInput.projectId);
+            const sprint = this.sprints.create({
+                pu
             });
-            const sprint = await this.sprints.create({
-                project:project,
-                startDate:getSprintInput.startDate,
-                endDate:getSprintInput.endDate,
-                period:getSprintInput.period,
-                purpose:getSprintInput.purpose,
-            });
-
-            await this.sprints.save(sprint);
 
             return {
                 ok:true,
                 error:null,
-                sprintId:sprint.id,
             }
         }
         catch(e){
-            return{
-                ok:false,
-                error:e,
-                sprintId:null,
-            }
+
         }
     }
 }

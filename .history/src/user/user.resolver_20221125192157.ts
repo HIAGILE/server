@@ -12,7 +12,6 @@ import { LoginInput, LoginOutput } from "./dtos/login.dto";
 import { UserProfileInput, UserProfileOutput } from "./dtos/user-profile.dto";
 import { VerificationAgainOutput } from "./dtos/verification-again.dto";
 import { VerifyEmailInput, VerifyEmailOutput } from "./dtos/verify-email.dto";
-import { VideoOutput } from "./dtos/video.dto";
 import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
 
@@ -111,10 +110,10 @@ export class UserResolver {
         return await this.userService.verifyEmail(verifyEmailInput.code);
     }
 
-    @Query((returns) => VideoOutput)
+    @Query((returns) => Boolean)
     async getVideoList(
         @AuthUser() authUser:User,
-    ):Promise<VideoOutput>
+    )
     {
         return await this.userService.getVideoList();
     }

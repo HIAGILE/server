@@ -78,15 +78,15 @@ export class SprintService{
                     id:getSprintInput.projectId,
                 }
             });
-            const sprint = await this.sprints.create({
-                project:project,
-                startDate:getSprintInput.startDate,
-                endDate:getSprintInput.endDate,
-                period:getSprintInput.period,
-                purpose:getSprintInput.purpose,
-            });
+            // const sprint = await this.sprints.create({
+            //     project:project,
+            //     startDate:getSprintInput.startDate,
+            //     endDate:getSprintInput.endDate,
+            //     period:getSprintInput.period,
+            //     purpose:getSprintInput.purpose,
+            // });
 
-            await this.sprints.save(sprint);
+            // await this.sprints.save(sprint);
 
             return {
                 ok:true,

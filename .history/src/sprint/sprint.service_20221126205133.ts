@@ -22,16 +22,6 @@ export class SprintService{
         getSprintInput:GetSprintInput
     ):Promise<GetSprintOutput>{
         try{
-            const sprint = await this.sprints.findOne({
-                where:{
-                    id:getSprintInput.id,
-                    project:{
-                        id:getSprintInput.projectId,
-                    }
-                },
-                relations:['project'],
-            });
-
             return {
                 ok:true,
                 error:null,
@@ -47,20 +37,9 @@ export class SprintService{
         getSprintsInput:GetSprintsInput
     ):Promise<GetSprintsOutput>{
         try{
-            const sprints = await this.sprints.find({
-                where:{
-                    project:{
-                        id:getSprintsInput.id,
-                    }
-                },
-                relations:['project'],
-            });
-
-
             return {
                 ok:true,
                 error:null,
-                sprints:sprints,
             }
         }
         catch(e){
@@ -91,15 +70,10 @@ export class SprintService{
             return {
                 ok:true,
                 error:null,
-                sprintId:sprint.id,
             }
         }
         catch(e){
-            return{
-                ok:false,
-                error:e,
-                sprintId:null,
-            }
+
         }
     }
 }
