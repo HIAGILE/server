@@ -73,6 +73,7 @@ export class SprintService{
         createSprintInput:CreateSprintInput
     ):Promise<CreateSprintOutput>{
         try{
+            console.log("hello")
             const project = await this.projects.findOne({
                 where:{
                     id:createSprintInput.projectId,

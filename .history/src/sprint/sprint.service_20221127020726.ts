@@ -76,7 +76,7 @@ export class SprintService{
             const project = await this.projects.findOne({
                 where:{
                     id:createSprintInput.projectId,
-                },
+                }
             });
             const sprint = this.sprints.create({
                 project:project,

@@ -73,25 +73,27 @@ export class SprintService{
         createSprintInput:CreateSprintInput
     ):Promise<CreateSprintOutput>{
         try{
-            const project = await this.projects.findOne({
-                where:{
-                    id:createSprintInput.projectId,
-                },
-            });
-            const sprint = this.sprints.create({
-                project:project,
-                startDate:createSprintInput.startDate,
-                endDate:createSprintInput.endDate,
-                period:createSprintInput.period,
-                purpose:createSprintInput.purpose,
-            });
+            // console.log("hello")
 
-            await this.sprints.save(sprint);
+            // const project = await this.projects.findOne({
+            //     where:{
+            //         id:createSprintInput.projectId,
+            //     },
+            // });
+            // const sprint = this.sprints.create({
+            //     project:project,
+            //     startDate:createSprintInput.startDate,
+            //     endDate:createSprintInput.endDate,
+            //     period:createSprintInput.period,
+            //     purpose:createSprintInput.purpose,
+            // });
+
+            // await this.sprints.save(sprint);
 
             return {
                 ok:true,
                 error:null,
-                sprintId:sprint.id,
+                sprintId:1,
             }
         }
         catch(e){

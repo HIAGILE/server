@@ -53,25 +53,12 @@ export class ToDoListService{
         createToDoListInput:CreateToDoListInput
     ):Promise<CreateToDoListOutput>{
         try{
-            const sprint = await this.sprints.findOne({
-                where:{
-                    id:createToDoListInput.sprintId,
-                }
-            });
-
-            const toDoList = await this.users.save(
-                this.users.create({
-                    title:createToDoListInput.title,
-                    description:createToDoListInput.description,
-                    status:createToDoListInput.status,
-                    sprint:sprint,
-                })
-            );
+            const sprint = await this.sprints.findOne(createToDoListInput.sprintId);
 
             return {
                 ok:true,
                 error:null,
-                toDoListId:toDoList.id
+                toDoListId:1
             }
         }
         catch(e){

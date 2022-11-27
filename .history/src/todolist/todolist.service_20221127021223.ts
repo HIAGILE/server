@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Sprint } from "src/sprint/entities/sprint.entity";
 import { User } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateToDoListInput, CreateToDoListOutput } from "./dtos/create-todolist.dto";
@@ -14,8 +13,6 @@ export class ToDoListService{
     constructor(
         @InjectRepository(ToDoList)
         private readonly users:Repository<ToDoList>,
-        @InjectRepository(Sprint)
-        private readonly sprints:Repository<Sprint>,
     ){}
 
     async getToDoList(
@@ -53,25 +50,10 @@ export class ToDoListService{
         createToDoListInput:CreateToDoListInput
     ):Promise<CreateToDoListOutput>{
         try{
-            const sprint = await this.sprints.findOne({
-                where:{
-                    id:createToDoListInput.sprintId,
-                }
-            });
-
-            const toDoList = await this.users.save(
-                this.users.create({
-                    title:createToDoListInput.title,
-                    description:createToDoListInput.description,
-                    status:createToDoListInput.status,
-                    sprint:sprint,
-                })
-            );
-
             return {
                 ok:true,
                 error:null,
-                toDoListId:toDoList.id
+                toDoListId:1
             }
         }
         catch(e){
