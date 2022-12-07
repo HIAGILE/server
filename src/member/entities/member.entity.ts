@@ -3,8 +3,9 @@ import { IsEnum, IsString } from "class-validator";
 import { type } from "os";
 import { CoreEntity } from "src/common/entities/core.entity";
 import { Project } from "src/project/entities/project.entity";
+import { ToDoList } from "src/todolist/entities/todolist.entity";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, ManyToOne, OneToOne, RelationId } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToOne, RelationId } from "typeorm";
 
 export enum ProjectRole{
     Leader = "Leader",
@@ -44,4 +45,5 @@ export class Member extends CoreEntity {
     @Field((type)=>ProjectRole,{nullable:true})
     @IsEnum(ProjectRole)
     role:ProjectRole;
+
 }

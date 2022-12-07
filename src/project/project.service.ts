@@ -66,7 +66,7 @@ export class ProjectService{
                         id:user.id
                     }
                 }
-                ,relations:["owner","members","members.user","sprints","sprints.toDoList"]
+                ,relations:["owner","members","members.user","sprints","sprints.toDoList","sprints.toDoList.members","sprints.toDoList.members.user"]
             })
             return {
                 ok:true,
@@ -90,7 +90,7 @@ export class ProjectService{
                         id:user.id
                     }
                 }
-                ,relations:["owner","members","members.user","sprints","sprints.toDoList"]
+                ,relations:["owner","members","members.user","sprints","sprints.toDoList","sprints.toDoList.members"]
             })
             return {
                 ok:true,

@@ -2,8 +2,9 @@ import { Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql"
 import { IsEnum } from "class-validator";
 import { type } from "os";
 import { CoreEntity } from "src/common/entities/core.entity";
+import { Member } from "src/member/entities/member.entity";
 import { Sprint } from "src/sprint/entities/sprint.entity";
-import { Column, Entity, ManyToOne, RelationId } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, RelationId } from "typeorm";
 
 
 export enum ToDoListStatus{
@@ -31,7 +32,7 @@ export class ToDoList extends CoreEntity{
     @Column({nullable:true})
     @Field((type) => String)
     description:string;
-    
+     
     @Field((type) => Sprint,{nullable:true})
     @ManyToOne(()=> Sprint, (sprint) => sprint.toDoList,{
         nullable:true,
@@ -42,4 +43,11 @@ export class ToDoList extends CoreEntity{
 
     @RelationId((toDoList:ToDoList) => toDoList.sprint)
     sprintId:number;
+
+    @Field((type) => [Member],{nullable:true})
+    @ManyToMany((type) => Member,{
+        eager:true,
+    })
+    @JoinTable()
+    members:Member[];
 }

@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Member } from "src/member/entities/member.entity";
 import { Sprint } from "src/sprint/entities/sprint.entity";
 import { User } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
@@ -13,9 +14,13 @@ import { ToDoList } from "./entities/todolist.entity";
 export class ToDoListService{
     constructor(
         @InjectRepository(ToDoList)
-        private readonly users:Repository<ToDoList>,
+        private readonly toDoLists:Repository<ToDoList>,
+        @InjectRepository(User)
+        private readonly users:Repository<User>,
         @InjectRepository(Sprint)
         private readonly sprints:Repository<Sprint>,
+        @InjectRepository(Member)
+        private readonly members:Repository<Member>,
     ){}
 
     async getToDoList(
@@ -38,6 +43,9 @@ export class ToDoListService{
         getToDoListsInput:GetToDoListsInput
     ):Promise<GetToDoListsOutput>{
         try{
+            
+
+
             return {
                 ok:true,
                 error:null,
@@ -53,18 +61,34 @@ export class ToDoListService{
         createToDoListInput:CreateToDoListInput
     ):Promise<CreateToDoListOutput>{
         try{
+            const memeberIds = createToDoListInput.memberId.split(",").map((id)=>Number(id));
+            const memberArray:Member[] = [];
+
+            for(const memberId of memeberIds){
+                const member = await this.members.findOne({
+                    where:{
+                        id:memberId,
+                    }
+                });
+                if(member && member !== null){
+                    memberArray.push(member)
+                }
+            }
+
             const sprint = await this.sprints.findOne({
                 where:{
                     id:createToDoListInput.sprintId,
                 }
             });
 
-            const toDoList = await this.users.save(
-                this.users.create({
+
+            const toDoList = await this.toDoLists.save(
+                this.toDoLists.create({
                     title:createToDoListInput.title,
                     description:createToDoListInput.description,
                     status:createToDoListInput.status,
                     sprint:sprint,
+                    members:memberArray,
                 })
             );
 

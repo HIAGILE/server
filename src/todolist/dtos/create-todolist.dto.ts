@@ -7,6 +7,9 @@ import { ToDoList } from "src/todolist/entities/todolist.entity";
 
 @InputType()
 export class CreateToDoListInput extends PickType(ToDoList, ['title','description','status']) {
+    @Field((type) => String)
+    memberId: string;
+
     @Field((type) => Number)
     sprintId: number;
  }
