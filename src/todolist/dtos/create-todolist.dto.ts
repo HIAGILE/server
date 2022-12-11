@@ -6,7 +6,7 @@ import { User } from "src/user/entities/user.entity";
 import { ToDoList } from "src/todolist/entities/todolist.entity";
 
 @InputType()
-export class CreateToDoListInput extends PickType(ToDoList, ['title','description','status']) {
+export class CreateToDoListInput extends PickType(ToDoList, ['title','description','status','startDate','endDate']) {
     @Field((type) => String)
     memberId: string;
 

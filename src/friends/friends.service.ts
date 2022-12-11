@@ -15,6 +15,115 @@ export class FriendsService{
         private readonly users:Repository<User>,
         private readonly noticeService: NoticeService,
     ){}
+
+    async acceptUser(authUser,{userId}:FollowUserInput):Promise<FollowUserOutput>{
+        try{
+            const user = await this.users.findOne({
+                where:{
+                    id:userId
+                }}
+            );
+
+            const friend = await this.friends.findOne({
+                where:{
+                    user:{
+                        id:authUser.id
+                    },
+                    friendId:userId
+                }
+            });
+            friend.verified = true;
+            await this.friends.save(friend);
+
+            const my = await this.noticeService.noticeMaker({
+                userId:authUser.id,
+                description:`${user.name}님의 친구요청을 수락했습니다.`
+            })
+            const you = await this.noticeService.noticeMaker({
+                userId:userId,
+                description:`${authUser.name}님이 친구요청을 수락했습니다.`
+            })
+
+            const myFriends = await this.friends.find({
+                where: {
+                  user:{
+                    id:authUser.id
+                  },
+                }
+              });
+            if(my.ok && you.ok){
+                return {
+                    ok:true,
+                    error:null,
+                    friends:myFriends
+                }
+            }else{
+                return {
+                    ok:false,
+                    error:"알 수 없는 오류가 발생하였습니다."
+                }
+            }
+        }catch(e){
+            console.log(e);
+            return {
+                ok:false,
+                error:"알 수 없는 오류가 발생하였습니다."
+            };
+        }
+    }
+
+    async unfollowUser(authUser,{userId}:FollowUserInput):Promise<FollowUserOutput>{
+        try{
+            const user = await this.users.findOne({
+                where:{
+                    id:userId
+                }}
+            );
+            const friend1 = await this.friends.findOne({
+                where:{
+                    user:{
+                        id:authUser.id
+                    },
+                    friendId:userId
+                }
+            });
+            friend1.verified = false;
+            await this.friends.save(friend1);
+            const my = await this.noticeService.noticeMaker({
+                userId:authUser.id,
+                description:`${user.name}님을 언팔로우 하였습니다.`
+            })
+            const you = await this.noticeService.noticeMaker({
+                userId:userId,
+                description:`${authUser.name}님이 회원님을 언팔로우 하였습니다.`
+            })
+
+            const myFriends = await this.friends.find({
+                where: {
+                  user:{
+                    id:authUser.id
+                  },
+                }
+              });
+            if(my.ok && you.ok){
+                return {
+                    ok:true,
+                    error:null,
+                    friends:myFriends
+                }
+            }else{
+                return {
+                    ok:false,
+                    error:"알 수 없는 오류가 발생하였습니다."
+                }
+            }
+        }catch(e){
+            return {
+                ok:false,
+                error:"알 수 없는 오류가 발생하였습니다."
+            }
+        }
+    }
     async followUser(authUser,{userId}:FollowUserInput):Promise<FollowUserOutput>{
         try{
             const user = await this.users.findOne({
@@ -22,21 +131,35 @@ export class FriendsService{
                     id:userId
                 }}
             );
-            const friend1 = await this.friends.create(
-                {
-                    user:authUser,
-                    friendId:user.id,
-                    verified:true,
+            const friend1 = await this.friends.findOne({
+                where:{
+                    user:{
+                        id:authUser.id
+                    },
+                    friendId:userId
                 }
-            );
-            this.friends.save(friend1);
-            const friend2 = await this.friends.create(
-                {
-                    user:user,
-                    friendId:authUser.id,
-                }
-            );
-            this.friends.save(friend2);
+            });
+            if (friend1) {
+                friend1.verified = true;
+                await this.friends.save(friend1);
+            }
+            else{
+                await this.friends.save(this.friends.create(
+                    {
+                        user:authUser,
+                        friendId:userId,
+                        verified:true,
+                    }
+                ));
+                await this.friends.save(this.friends.create(
+                    {
+                        user:user,
+                        friendId:authUser.id,
+                        verified:false,
+                    }
+                ));
+            }
+
             const my = await this.noticeService.noticeMaker({
                 userId:authUser.id,
                 description:`${user.name}님을 팔로우 하였습니다.`
@@ -45,9 +168,19 @@ export class FriendsService{
                 userId:userId,
                 description:`${authUser.name}님이 회원님을 팔로우 하였습니다.`
             })
+
+            const myFriends = await this.friends.find({
+                where: {
+                  user:{
+                    id:authUser.id
+                  },
+                }
+            });
+
             if(my.ok && you.ok){
                 return{
                     ok:true,
+                    friends:myFriends
                 }
             }
         }

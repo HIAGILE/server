@@ -60,12 +60,20 @@ export class UserService {
         }
       });
 
+      const inMyFriends = await this.friends.find({
+        where: {
+          friendId:authUser.id
+        },
+        relations: ["user"]
+      });
+
       if (users)
       {
         return {
           ok: true,
           users: users,
           friends: myFriends,
+          inMyFriends:inMyFriends,
         }
       }
     }

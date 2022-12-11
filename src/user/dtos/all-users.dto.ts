@@ -8,10 +8,13 @@ export class AllUsersInput {}
 
 @ObjectType()
 export class AllUsersOutput extends CoreOutput {
-
+    
     @Field((type) => [Friends], { nullable: true })
     friends?: Friends[];
 
     @Field((type) =>[User], { nullable: true })
     users?: User[];
+
+    @Field((type) => [Friends], { nullable: true })
+    inMyFriends?: Friends[];
 }

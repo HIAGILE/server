@@ -7,6 +7,7 @@ import { Repository } from "typeorm";
 import { CreateToDoListInput, CreateToDoListOutput } from "./dtos/create-todolist.dto";
 import { GetToDoListInput, GetToDoListOutput } from "./dtos/get-todolist.dto";
 import { GetToDoListsInput, GetToDoListsOutput } from "./dtos/get-todolists.dto";
+import { UpdateToDoListInput, UpdateToDoListOutput } from "./dtos/update-todolist.dto";
 import { ToDoList } from "./entities/todolist.entity";
 
 @Injectable()
@@ -86,6 +87,8 @@ export class ToDoListService{
                 this.toDoLists.create({
                     title:createToDoListInput.title,
                     description:createToDoListInput.description,
+                    startDate:createToDoListInput.startDate,
+                    endDate:createToDoListInput.endDate,
                     status:createToDoListInput.status,
                     sprint:sprint,
                     members:memberArray,
@@ -104,6 +107,28 @@ export class ToDoListService{
                 error:e,
                 toDoListId:null
             }
+        }
+    }
+
+    async updateToDoList(
+        authUser:User,
+        updateToDoListInput:UpdateToDoListInput
+    ):Promise<UpdateToDoListOutput>{
+        try{
+            const toDoList = await this.toDoLists.findOne({
+                where:{
+                    id:updateToDoListInput.id,
+                }
+            });
+
+
+            return {
+                ok:true,
+                error:null,
+            }
+        }
+        catch(e){
+
         }
     }
 }

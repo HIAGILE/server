@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { IsEnum } from "class-validator";
+import { IsDate, IsEnum } from "class-validator";
 import { type } from "os";
 import { CoreEntity } from "src/common/entities/core.entity";
 import { Member } from "src/member/entities/member.entity";
@@ -32,6 +32,16 @@ export class ToDoList extends CoreEntity{
     @Column({nullable:true})
     @Field((type) => String)
     description:string;
+
+    @Column({nullable:true})
+    @Field((type) => Date)
+    @IsDate()
+    startDate:Date; 
+
+    @Column({nullable:true})
+    @Field((type) => Date)
+    @IsDate()
+    endDate:Date;
      
     @Field((type) => Sprint,{nullable:true})
     @ManyToOne(()=> Sprint, (sprint) => sprint.toDoList,{

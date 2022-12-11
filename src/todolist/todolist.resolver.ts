@@ -5,6 +5,7 @@ import { User } from "src/user/entities/user.entity";
 import { CreateToDoListInput, CreateToDoListOutput } from "./dtos/create-todolist.dto";
 import { GetToDoListInput, GetToDoListOutput } from "./dtos/get-todolist.dto";
 import { GetToDoListsInput, GetToDoListsOutput } from "./dtos/get-todolists.dto";
+import { UpdateToDoListInput, UpdateToDoListOutput } from "./dtos/update-todolist.dto";
 import { ToDoList } from "./entities/todolist.entity";
 import { ToDoListService } from "./todolist.service";
 
@@ -37,5 +38,14 @@ export class ToDoListResolver{
         @Args('input') getToDoListInput:GetToDoListInput
     ):Promise<GetToDoListOutput>{
         return await this.toDoListService.getToDoList(authUser,getToDoListInput);
+    }
+
+    @Mutation((returns)=> UpdateToDoListOutput)
+    @Role(['Any'])
+    async updateToDoList(
+        @AuthUser() authUser:User,
+        @Args('input') updateToDoListInput:UpdateToDoListInput
+    ):Promise<UpdateToDoListOutput>{
+        return await this.toDoListService.updateToDoList(authUser,updateToDoListInput);
     }
 }
