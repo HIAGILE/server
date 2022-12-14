@@ -378,7 +378,7 @@ export class UserService {
             code: code,
             grant_type: "authorization_code",
             client_id: "b3a9beab04e6e23fce4144d6733c69ab",
-            redirect_uri: "https://hiagail-client.vercel.app/social/kakao",
+            redirect_uri: "https://hiagile-client.vercel.app/social/kakao",
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
