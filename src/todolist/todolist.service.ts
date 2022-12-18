@@ -7,8 +7,10 @@ import { Repository } from "typeorm";
 import { CreateToDoListInput, CreateToDoListOutput } from "./dtos/create-todolist.dto";
 import { GetToDoListInput, GetToDoListOutput } from "./dtos/get-todolist.dto";
 import { GetToDoListsInput, GetToDoListsOutput } from "./dtos/get-todolists.dto";
+import { UpdateMonitorInput, UpdateMonitorOutput } from "./dtos/update-monitor";
 import { UpdateToDoListInput, UpdateToDoListOutput } from "./dtos/update-todolist.dto";
-import { ToDoList } from "./entities/todolist.entity";
+import { Monitor } from "./entities/monitor.entity";
+import { ToDoList, ToDoListStatus } from "./entities/todolist.entity";
 
 @Injectable()
 
@@ -22,6 +24,8 @@ export class ToDoListService{
         private readonly sprints:Repository<Sprint>,
         @InjectRepository(Member)
         private readonly members:Repository<Member>,
+        @InjectRepository(Monitor)
+        private readonly monitors:Repository<Monitor>,
     ){}
 
     async getToDoList(
@@ -69,7 +73,8 @@ export class ToDoListService{
                 const member = await this.members.findOne({
                     where:{
                         id:memberId,
-                    }
+                    },
+                    relations:["user"]
                 });
                 if(member && member !== null){
                     memberArray.push(member)
@@ -94,6 +99,16 @@ export class ToDoListService{
                     members:memberArray,
                 })
             );
+
+            for(const member of memberArray){
+                await this.monitors.save(
+                    this.monitors.create({
+                        memberId:member.id,
+                        toDoList:toDoList,
+                        userId:member.user.id
+                    })
+                )
+            }
 
             return {
                 ok:true,
@@ -129,6 +144,58 @@ export class ToDoListService{
         }
         catch(e){
 
+        }
+    }
+
+    async updateMonitor(
+        authUser:User,
+        updateMonitorInput:UpdateMonitorInput
+    ):Promise<UpdateMonitorOutput>{
+        try{
+            const todolist = await this.toDoLists.findOne({
+                where:{
+                    id:updateMonitorInput.id
+                }
+            })
+            const monitor = await this.monitors.findOne({
+                where:{
+                    toDoList:{
+                        id:todolist.id
+                    },
+                    memberId:updateMonitorInput.memberId
+                }
+            })
+            monitor.rate = updateMonitorInput.rate
+            await this.monitors.save(monitor);
+
+            const monitors = await this.monitors.find({
+                where:{
+                    toDoList:{
+                        id:todolist.id
+                    }
+                }
+            })
+            let total = 0
+            for(const monitor of monitors){
+                total+=monitor.rate
+            }
+            if (total > 0){
+                todolist.status = ToDoListStatus.INPROGRESS
+            }
+            if (total == monitors.length * 100){
+                todolist.status = ToDoListStatus.DONE
+            }
+
+            await this.toDoLists.save(todolist)
+            return {
+                ok:true,
+                error:null
+            }
+        }catch(e){
+            return {
+                ok:false,
+                error:e
+            }
         }
     }
 }

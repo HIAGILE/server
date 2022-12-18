@@ -26,6 +26,7 @@ import { Context } from 'apollo-server-core';
 import { NoticeModule } from './notice/notice.module';
 import { Notice } from './notice/entities/notice.entity';
 import { UploadsModule } from './uploads/uploads.module';
+import { Monitor } from './todolist/entities/monitor.entity';
 
 
 @Module({
@@ -87,7 +88,7 @@ import { UploadsModule } from './uploads/uploads.module';
       logging:
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',
-      entities: [User, Project, Sprint, Member, ToDoList, Verification, Friends,Notice],
+      entities: [User, Project, Sprint, Member, ToDoList, Verification, Friends,Notice,Monitor],
     }),
     UserModule,
     ProjectModule,

@@ -66,7 +66,7 @@ export class ProjectService{
                         id:user.id
                     }
                 }
-                ,relations:["owner","members","members.user","sprints","sprints.toDoList","sprints.toDoList.members","sprints.toDoList.members.user"]
+                ,relations:["owner","members","members.user","sprints","sprints.toDoList","sprints.toDoList.members","sprints.toDoList.monitors","sprints.toDoList.members.user"]
             })
             return {
                 ok:true,

@@ -1,10 +1,12 @@
+import { InternalServerErrorException } from "@nestjs/common";
 import { Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
 import { IsDate, IsEnum } from "class-validator";
 import { type } from "os";
 import { CoreEntity } from "src/common/entities/core.entity";
 import { Member } from "src/member/entities/member.entity";
 import { Sprint } from "src/sprint/entities/sprint.entity";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, RelationId } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { Monitor } from "./monitor.entity";
 
 
 export enum ToDoListStatus{
@@ -42,6 +44,10 @@ export class ToDoList extends CoreEntity{
     @Field((type) => Date)
     @IsDate()
     endDate:Date;
+
+    @Field((type) => [Monitor],{nullable:false})
+    @OneToMany(() => Monitor,(monitor) => monitor.toDoList)
+    monitors?:Monitor[];
      
     @Field((type) => Sprint,{nullable:true})
     @ManyToOne(()=> Sprint, (sprint) => sprint.toDoList,{
